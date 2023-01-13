@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
+import SearchBox from './components/search-box/search-box.component'
+import CardList from './components/card-list/card-list.component';
 
 // function App() {
 //   const name="kiran"
@@ -26,26 +28,25 @@ class App extends React.Component{
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(res=>res.json())
     .then(list=>this.setState({employee:list,filtered:list}))
-    // console.log(this)
+    console.log('componentDidMount')
   }
-  find(event){
-    if(event.target.value){
+
+   find=(event)=>{
+    
       const found = this.state.employee.filter(e=>e.name.toLowerCase().includes(event.target.value.toLowerCase()))
       this.setState({filtered:found})
-    }else{
-      this.setState({filtered:this.state.employee})
-      
-    }
     
     // console.log(this)
   }
 
   render(){
+    const {find} = this
     return (
       
       <div className="App">
-        <input type="text" placeholder='Type a Name...' onInput={this.find.bind(this)}></input>
-          {this.state.filtered.map(e=><h1 key={e.id}>{e.name},{e.id}</h1>)}
+      <h1 className='heading'>Find Employee🔍</h1>
+      <SearchBox className="" placeholder="Name" onChangeHandler={find}/>
+      <CardList list={this.state.filtered}/>
     </div>
     );
   }
